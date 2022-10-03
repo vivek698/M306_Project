@@ -2,7 +2,7 @@ package model;
 
 public class Messwerte {
 
-    private int timestamp;
+    private String timestamp;
     private double relativeEinspeisung;
     private double absoluteEinspeisung;
     private double relativerBezug;
