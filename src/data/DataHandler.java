@@ -1,6 +1,15 @@
 package data;
 
+import java.util.TreeMap;
+
 public class DataHandler {
+
+    TreeMap map;
+
+    public DataHandler() {
+        map = new TreeMap();
+    }
+
 
     public static void readSDAT() {
 
