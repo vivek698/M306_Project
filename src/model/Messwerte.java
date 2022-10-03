@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement()
 public class Messwerte {
 
-    private String timestamp;
+    private String timestamp; //yyyy-MM-dd-hh-mm
     private double relativeEinspeisung;
     private double absoluteEinspeisung;
     private double relativerBezug;
