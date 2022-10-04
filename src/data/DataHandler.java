@@ -13,22 +13,34 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
 import java.util.TreeMap;
 import java.util.logging.FileHandler;
 
 public class DataHandler {
 
-    TreeMap map;
+    static TreeMap<Long, Messwerte> map;
+    static long millis;
+    static long resolution;
 
     public DataHandler() {
         map = new TreeMap();
+
     }
 
     public static void main(String[] args) {
 
         Gui gui = new Gui();
 
-        readSDAT();
+        DataHandler dataHandler = new DataHandler();
+
+        dataHandler.readSDAT();
     }
 
     public static void readSDAT() {
@@ -55,6 +67,79 @@ public class DataHandler {
             NodeList resolutionList
                     = doc.getElementsByTagName("rsm:Resolution");
 
+
+            for (int i = 0; i < timeList.getLength(); i++){
+                Node node = timeList.item(i);
+                System.out.println("\nNode Name :"
+                        + node.getNodeName());
+
+                if (node.getNodeType()
+                        == Node.ELEMENT_NODE) {
+                    Element tElement = (Element)node;
+                    System.out.println("Start date: "
+                            + tElement
+                            .getElementsByTagName("rsm:StartDateTime")
+                            .item(0)
+                            .getTextContent());
+
+
+                    Date date = new Date();
+
+                    date.setYear(Integer.valueOf(tElement
+                            .getElementsByTagName("rsm:StartDateTime")
+                            .item(0)
+                            .getTextContent().substring(0,4)));
+
+                    date.setMonth(Integer.valueOf(tElement
+                            .getElementsByTagName("rsm:StartDateTime")
+                            .item(0)
+                            .getTextContent().substring(5,7)) -1 );
+
+                    date.setDate(Integer.valueOf(tElement
+                            .getElementsByTagName("rsm:StartDateTime")
+                            .item(0)
+                            .getTextContent().substring(8,10)));
+
+                    date.setHours(Integer.valueOf(tElement
+                            .getElementsByTagName("rsm:StartDateTime")
+                            .item(0)
+                            .getTextContent().substring(11,13)));
+
+                    date.setMinutes(Integer.valueOf(tElement
+                            .getElementsByTagName("rsm:StartDateTime")
+                            .item(0)
+                            .getTextContent().substring(14,16)));
+
+                    date.setSeconds(0);
+
+                    System.out.println(date);
+
+
+                    millis = date.toInstant().toEpochMilli();
+                    System.out.println(millis);
+
+
+
+                    System.out.println("End date: "
+                            + tElement
+                            .getElementsByTagName("rsm:EndDateTime")
+                            .item(0)
+                            .getTextContent());
+                    System.out.println("Interval: "
+                            + tElement
+                            .getElementsByTagName("rsm:Resolution")
+                            .item(1)
+                            .getTextContent()
+                    );
+
+                    resolution = Integer.valueOf(tElement
+                            .getElementsByTagName("rsm:Resolution")
+                            .item(1)
+                            .getTextContent()) * 60000;
+                }
+            }
+
+
             for (int i = 0; i < observationList.getLength(); i++) {
                 Node node = observationList.item(i);
                 System.out.println("\nNode Name :"
@@ -73,34 +158,17 @@ public class DataHandler {
                             .getElementsByTagName("rsm:Volume")
                             .item(0)
                             .getTextContent());
+
+                    map.put(millis + ((Long.valueOf(tElement
+                            .getElementsByTagName("rsm:Sequence")
+                            .item(0)
+                            .getTextContent()) - 1) * resolution), new Messwerte());
                 }
+
+                System.out.println("Ertan: " + map.get(millis + 900000 ));
+
             }
 
-            for (int i = 0; i < timeList.getLength(); i++){
-                Node node = timeList.item(i);
-                System.out.println("\nNode Name :"
-                        + node.getNodeName());
-
-                if (node.getNodeType()
-                        == Node.ELEMENT_NODE) {
-                    Element tElement = (Element)node;
-                    System.out.println("Start date: "
-                            + tElement
-                            .getElementsByTagName("rsm:StartDateTime")
-                            .item(0)
-                            .getTextContent());
-                    System.out.println("End date: "
-                            + tElement
-                            .getElementsByTagName("rsm:EndDateTime")
-                            .item(0)
-                            .getTextContent());
-                    System.out.println("Interval: "
-                            + tElement
-                            .getElementsByTagName("rsm:Resolution")
-                            .item(1)
-                            .getTextContent());
-                }
-            }
 
 
         } catch (Exception e) {
