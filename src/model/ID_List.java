@@ -30,7 +30,7 @@ public class ID_List {
     }
 
     public static void main(String[] args) {
-        DataHandler.main(args);
+        Main.main(args);
         ID_List id_list=new ID_List("ID735");
         System.out.println(id_list.data);
     }
