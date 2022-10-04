@@ -17,11 +17,11 @@ public class ID_List {
         timestampList.add(2000L);
         timestampList.add(3000L);
 
-        /*
-        messwerteTreeMap.put(timestampList.get(0), new Messwerte("23.22.2021",100,20,102,30));
-        messwerteTreeMap.put(timestampList.get(1), new Messwerte("23.22.2021",100,20,102,30));
-        messwerteTreeMap.put(timestampList.get(2), new Messwerte("23.22.2021",100,20,102,30));
-         */
+
+        messwerteTreeMap.put(timestampList.get(0), new Messwerte(timestampList.get(0),100,20,102,30));
+        messwerteTreeMap.put(timestampList.get(1), new Messwerte(timestampList.get(1),100,20,102,30));
+        messwerteTreeMap.put(timestampList.get(2), new Messwerte(timestampList.get(2),100,20,102,30));
+
 
         if (id.equals("ID735")){
             for (Long timestamp:timestampList) {
