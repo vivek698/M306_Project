@@ -91,24 +91,13 @@ public class DataHandler {
                                     .item(0)
                                     .getTextContent();
 
-                    Date date = new Date();
-
-                    date.setYear(Integer.parseInt(startDateTime.substring(0,4)));
-
-                    date.setMonth(Integer.valueOf(startDateTime.substring(5,7)) -1 );
-
-                    date.setDate(Integer.valueOf(startDateTime.substring(8,10)));
-
-                    date.setHours(Integer.valueOf(startDateTime.substring(11,13)));
-
-                    date.setMinutes(Integer.valueOf(startDateTime.substring(14,16)));
-
-                    date.setSeconds(0);
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
+                    Date date = df.parse(startDateTime);
 
                     System.out.println(date);
 
 
-                    millis = date.toInstant().toEpochMilli();
+                    millis = date.getTime();
                     System.out.println(millis);
 
 
@@ -128,7 +117,7 @@ public class DataHandler {
                     resolution = Integer.valueOf(tElement
                             .getElementsByTagName("rsm:Resolution")
                             .item(1)
-                            .getTextContent()) * 60000;
+                            .getTextContent()) * 600000;
                 }
             }
 
@@ -183,6 +172,8 @@ public class DataHandler {
                             .item(0)
                             .getTextContent();
 
+                    System.out.println(millis);
+                    System.out.println(resolution);
 
                     if (map.get(millis + ((Sequence - 1) * resolution)) == null) {
                         map.put(millis + ((Sequence - 1) * resolution), new Messwerte());
