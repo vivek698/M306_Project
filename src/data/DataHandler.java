@@ -5,6 +5,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import view.Gui;
 
 import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
@@ -24,6 +25,9 @@ public class DataHandler {
     }
 
     public static void main(String[] args) {
+
+        Gui gui = new Gui();
+
         readSDAT();
     }
 
