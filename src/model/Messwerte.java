@@ -1,7 +1,7 @@
 package model;
 
 
-import jdk.nashorn.internal.objects.annotations.Property;
+//import jdk.nashorn.internal.objects.annotations.Property;
 
 import javax.xml.bind.JAXB;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -22,6 +22,14 @@ public class Messwerte {
 
     public Messwerte() {
 
+    }
+
+    public Messwerte(String timestamp, double relativeEinspeisung, double absoluteEinspeisung, double relativerBezug, double absoluterBezug) {
+        this.timestamp = timestamp;
+        this.relativeEinspeisung = relativeEinspeisung;
+        this.absoluteEinspeisung = absoluteEinspeisung;
+        this.relativerBezug = relativerBezug;
+        this.absoluterBezug = absoluterBezug;
     }
 
     public String getTimestamp() {
@@ -62,5 +70,17 @@ public class Messwerte {
 
     public void setAbsoluterBezug(double absoluterBezug) {
         this.absoluterBezug = absoluterBezug;
+    }
+
+    public String[] toStringArray() {
+        String[] stringArray={
+                this.getTimestamp(),
+                String.valueOf(this.getRelativeEinspeisung()),
+                String.valueOf(this.getAbsoluteEinspeisung()),
+                String.valueOf(this.getRelativerBezug()),
+                String.valueOf(this.getAbsoluterBezug())
+        };
+
+        return stringArray;
     }
 }

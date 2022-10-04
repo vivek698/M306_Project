@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class DataHandlerJSON {
     private static ArrayList messwerteList= new ArrayList();
-    private static String path = "../data/messwerte.json";
+    private static String path = "data/messwerte.json";
     /**
      * reads the game from the JSON-file
      */
