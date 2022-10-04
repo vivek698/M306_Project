@@ -159,10 +159,19 @@ public class DataHandler {
                             .item(0)
                             .getTextContent());
 
-                    map.put(millis + ((Long.valueOf(tElement
+
+                    if (map.get(millis + ((Long.valueOf(tElement
                             .getElementsByTagName("rsm:Sequence")
                             .item(0)
-                            .getTextContent()) - 1) * resolution), new Messwerte());
+                            .getTextContent()) - 1) * resolution)) == null) {
+                        map.put(millis + ((Long.valueOf(tElement
+                                .getElementsByTagName("rsm:Sequence")
+                                .item(0)
+                                .getTextContent()) - 1) * resolution), new Messwerte());
+                    }
+
+
+
                 }
 
                 System.out.println("Ertan: " + map.get(millis + 900000 ));
