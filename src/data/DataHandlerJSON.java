@@ -10,13 +10,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * data handler for reading the User
  */
 public class DataHandlerJSON {
     private static ArrayList messwerteList= new ArrayList();
-    private static String path = "data/messwerte.json";
+    private static final String path = "data/messwerte.json";
     /**
      * reads the game from the JSON-file
      */
@@ -30,9 +31,7 @@ public class DataHandlerJSON {
 
             ObjectMapper objectMapper = new ObjectMapper();
             Messwerte[] messwerte = objectMapper.readValue(jsonData, Messwerte[].class);
-            for (Messwerte messwert : messwerte) {
-                messwerteList.add(messwert);
-            }
+            Collections.addAll(messwerteList, messwerte);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

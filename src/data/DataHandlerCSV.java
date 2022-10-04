@@ -10,7 +10,7 @@ import model.Messwerte;
 
 public class DataHandlerCSV {
     private static List<Messwerte> messwerteList=new ArrayList<>();
-    private static String path = "data/messwerte.csv";
+    private static final String path = "data/messwerte.csv";
     public static void main(String[] args) {
 
         List<Messwerte> csvData = createCsvDataExemple();
@@ -25,7 +25,6 @@ public class DataHandlerCSV {
 
     }
     private static List<Messwerte> createCsvDataExemple() {
-        List<Messwerte> messwerteList=new ArrayList<>();
         messwerteList.add(new Messwerte("23.22.2021",100,20,102,30));
         messwerteList.add(new Messwerte("23.22.2021",100,20,102,30));
         messwerteList.add(new Messwerte("23.22.2021",100,20,102,30));
