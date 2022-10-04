@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.*;
 
 import com.opencsv.CSVWriter;
+import model.ID_List;
 import model.Messwerte;
 
 public class DataHandlerCSV {
@@ -13,36 +14,30 @@ public class DataHandlerCSV {
     private static final String path = "data/messwerte.csv";
     public static void main(String[] args) {
 
-        List<Messwerte> csvData = createCsvDataExemple();
-
-        List <String[]> finalData = toStringList(csvData);
+        ID_List.main(args);
+        List <String[]> finalData = toStringList();
 
         try (CSVWriter writer = new CSVWriter(new FileWriter(path))) {
             writer.writeAll(finalData);
+            System.out.println("Hello");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
-    private static List<Messwerte> createCsvDataExemple() {
-        List<Messwerte> messwerteList=new ArrayList<>();
-        /*
-        messwerteList.add(new Messwerte("23.22.2021",100,20,102,30));
-        messwerteList.add(new Messwerte("23.22.2021",100,20,102,30));
-        messwerteList.add(new Messwerte("23.22.2021",100,20,102,30));
-        */
 
-        return messwerteList;
-    }
-
-    public static List<String[]> toStringList(List<Messwerte> messwerteList){
+    public static List<String[]> toStringList(){
         List<String[]> stringList=new ArrayList<>();
 
-        String[] header={"Timestamp","relative Einspeisung","absolute Einspeisung","relative Bezug","relative Bezug"};
+        String[] header={"ts","value"};
         stringList.add(header);
 
-        for (Messwerte messwerte:messwerteList) {
-            stringList.add(messwerte.toStringArray());
+        ID_List id735=new ID_List("ID735");
+        ID_List id742=new ID_List("ID742");
+
+        //TODO
+        for (int i = 0; i < id742.size(); i++) {
+            stringList.add(id742.toStringArray(i));
         }
 
         return stringList;
