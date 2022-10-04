@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.FileHandler;
 
@@ -29,6 +30,7 @@ public class DataHandler {
     static long millis;
     static long resolution;
     static String startDateTime;
+    static boolean strombezogen;
 
     public DataHandler() {
         map = new TreeMap();
@@ -130,6 +132,31 @@ public class DataHandler {
             }
 
 
+            for (int i = 0; i < docIDList.getLength(); i++) {
+                Node node = docIDList.item(i);
+                System.out.println("\nNode Name :"
+                        + node.getNodeName());
+
+                if (node.getNodeType()
+                        == Node.ELEMENT_NODE) {
+                    Element tElement = (Element)node;
+                    String docID = tElement
+                            .getElementsByTagName("rsm:DocumentID")
+                            .item(0)
+                            .getTextContent();
+                    docID = docID.substring(docID.length() - 3);
+
+                    if (docID.equals("742")){
+                        System.out.println("Strom wird bezogen (" + docID + ")");
+                        strombezogen = true;
+                    } else {
+                        System.out.println("Strom wird eingespeist (" + docID + ")");
+                        strombezogen = false;
+                    }
+                }
+            }
+
+
             for (int i = 0; i < observationList.getLength(); i++) {
                 Node node = observationList.item(i);
                 System.out.println("\nNode Name :"
@@ -150,14 +177,29 @@ public class DataHandler {
                             .item(0)
                             .getTextContent());
 
+                    String volume = tElement
+                            .getElementsByTagName("rsm:Volume")
+                            .item(0)
+                            .getTextContent();
+
 
                     if (map.get(millis + ((Sequence - 1) * resolution)) == null) {
                         map.put(millis + ((Sequence - 1) * resolution), new Messwerte());
                     }
 
-                    if (1 == 1) {
+                    map.get(millis + ((Sequence - 1) * resolution)).setTimestamp(millis + ((Sequence - 1) * resolution));
 
+                    if (strombezogen = true) {
+                        map.get(millis + ((Sequence - 1) * resolution)).setRelativerBezug(Double.valueOf(volume));
+                        System.out.println("Realtiver Bezug von: " + millis + ((Sequence - 1) * resolution) + " ist "
+                                + map.get(millis + ((Sequence - 1) * resolution)).getRelativerBezug());
+
+                    }   else {
+                        map.get(millis + ((Sequence - 1) * resolution)).setRelativeEinspeisung(Double.valueOf(volume));
+                        System.out.println("Realtive Einspeisung von: " + millis + ((Sequence - 1) * resolution) + " ist "
+                                + map.get(millis + ((Sequence - 1) * resolution)).getRelativerBezug());
                     }
+
 
 
 
@@ -167,33 +209,24 @@ public class DataHandler {
 
             }
 
-            for (int i = 0; i < docIDList.getLength(); i++) {
-                Node node = docIDList.item(i);
-                System.out.println("\nNode Name :"
-                        + node.getNodeName());
-
-                if (node.getNodeType()
-                        == Node.ELEMENT_NODE) {
-                    Element tElement = (Element)node;
-                    String docID = tElement
-                            .getElementsByTagName("rsm:DocumentID")
-                            .item(0)
-                            .getTextContent();
-                    docID = docID.substring(docID.length() - 3);
-
-                    if (docID.equals("742")){
-                        System.out.println("Strom wird bezogen (" + docID + ")");
-                    } else {
-                        System.out.println("Strom wird eingespeist (" + docID + ")");
-                    }
-                }
-            }
-
-
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+        System.out.println("____________Treemap Loop_________________");
+
+        for (Map.Entry<Long, Messwerte>
+                entry : map.entrySet())
+            System.out.println(
+                    "[" + entry.getKey()
+                            + ", " + entry.getValue().getRelativerBezug()
+                            + ", " + entry.getValue().getRelativeEinspeisung()
+                            + "]");
+
+
+
     }
 
     public static void readESL() {

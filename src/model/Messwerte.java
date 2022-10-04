@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement()
 public class Messwerte {
 
-    private String timestamp; //yyyy-MM-dd-hh-mm
+    private long timestamp; //yyyy-MM-dd-hh-mm
     private double relativeEinspeisung;
     private double absoluteEinspeisung;
     private double relativerBezug;
@@ -24,7 +24,7 @@ public class Messwerte {
 
     }
 
-    public Messwerte(String timestamp, double relativeEinspeisung, double absoluteEinspeisung, double relativerBezug, double absoluterBezug) {
+    public Messwerte(long timestamp, double relativeEinspeisung, double absoluteEinspeisung, double relativerBezug, double absoluterBezug) {
         this.timestamp = timestamp;
         this.relativeEinspeisung = relativeEinspeisung;
         this.absoluteEinspeisung = absoluteEinspeisung;
@@ -32,11 +32,11 @@ public class Messwerte {
         this.absoluterBezug = absoluterBezug;
     }
 
-    public String getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -74,7 +74,7 @@ public class Messwerte {
 
     public String[] toStringArray() {
         String[] stringArray={
-                this.getTimestamp(),
+                String.valueOf(this.getTimestamp()),
                 String.valueOf(this.getRelativeEinspeisung()),
                 String.valueOf(this.getAbsoluteEinspeisung()),
                 String.valueOf(this.getRelativerBezug()),

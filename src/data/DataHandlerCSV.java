@@ -26,10 +26,11 @@ public class DataHandlerCSV {
     }
     private static List<Messwerte> createCsvDataExemple() {
         List<Messwerte> messwerteList=new ArrayList<>();
+        /*
         messwerteList.add(new Messwerte("23.22.2021",100,20,102,30));
         messwerteList.add(new Messwerte("23.22.2021",100,20,102,30));
         messwerteList.add(new Messwerte("23.22.2021",100,20,102,30));
-
+        */
 
         return messwerteList;
     }
