@@ -183,7 +183,6 @@ public class DataHandler {
 
                         }
 
-                        System.out.println("Ertan: " + map.get(millis + 900000 ));
 
                     }
 
