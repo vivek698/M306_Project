@@ -10,6 +10,7 @@ import view.Gui;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class DataHandler {
@@ -38,156 +39,165 @@ public class DataHandler {
     public static void readSDAT() {
 
         try {
-            File file = new File(
-                    "data/sdat/20190313_093127_12X-0000001216-O_E66_12X-LIPPUNEREM-T_ESLEVU121963_-279617263.xml");
 
-            DocumentBuilderFactory dbf
-                    = DocumentBuilderFactory.newInstance();
+            String myDirectoryPath = "data/sdat/";
+            File dir = new File(myDirectoryPath);
+            File[] directoryListing = dir.listFiles();
+            if (directoryListing != null) {
+                for (File file : directoryListing) {
+                    DocumentBuilderFactory dbf
+                            = DocumentBuilderFactory.newInstance();
 
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(file);
+                    DocumentBuilder db = dbf.newDocumentBuilder();
+                    Document doc = db.parse(file);
 
-            doc.getDocumentElement().normalize();
-            System.out.println(
-                    "Root element: "
-                            + doc.getDocumentElement().getNodeName());
+                    doc.getDocumentElement().normalize();
+                    System.out.println(
+                            "Root element: "
+                                    + doc.getDocumentElement().getNodeName());
 
-            NodeList observationList
-                    = doc.getElementsByTagName("rsm:Observation");
-            NodeList timeList
-                    = doc.getElementsByTagName("rsm:MeteringData");
-            NodeList docIDList
-                    = doc.getElementsByTagName("rsm:InstanceDocument");
+                    NodeList observationList
+                            = doc.getElementsByTagName("rsm:Observation");
+                    NodeList timeList
+                            = doc.getElementsByTagName("rsm:MeteringData");
+                    NodeList docIDList
+                            = doc.getElementsByTagName("rsm:InstanceDocument");
 
 
-            for (int i = 0; i < timeList.getLength(); i++){
-                Node node = timeList.item(i);
-                System.out.println("\nNode Name :"
-                        + node.getNodeName());
+                    for (int i = 0; i < timeList.getLength(); i++){
+                        Node node = timeList.item(i);
+                        System.out.println("\nNode Name :"
+                                + node.getNodeName());
 
-                if (node.getNodeType()
-                        == Node.ELEMENT_NODE) {
-                    Element tElement = (Element)node;
-                    System.out.println("Start date: "
-                            + tElement
-                            .getElementsByTagName("rsm:StartDateTime")
-                            .item(0)
-                            .getTextContent());
+                        if (node.getNodeType()
+                                == Node.ELEMENT_NODE) {
+                            Element tElement = (Element)node;
+                            System.out.println("Start date: "
+                                    + tElement
+                                    .getElementsByTagName("rsm:StartDateTime")
+                                    .item(0)
+                                    .getTextContent());
 
-                    startDateTime = tElement
+                            startDateTime = tElement
                                     .getElementsByTagName("rsm:StartDateTime")
                                     .item(0)
                                     .getTextContent();
 
-                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
-                    Date date = df.parse(startDateTime);
+                            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss'Z'");
+                            Date date = df.parse(startDateTime);
 
-                    System.out.println(date);
-
-
-                    millis = date.getTime();
-                    System.out.println(millis);
+                            System.out.println(date);
 
 
-
-                    System.out.println("End date: "
-                            + tElement
-                            .getElementsByTagName("rsm:EndDateTime")
-                            .item(0)
-                            .getTextContent());
-                    System.out.println("Interval: "
-                            + tElement
-                            .getElementsByTagName("rsm:Resolution")
-                            .item(1)
-                            .getTextContent()
-                    );
-
-                    resolution = Integer.valueOf(tElement
-                            .getElementsByTagName("rsm:Resolution")
-                            .item(1)
-                            .getTextContent()) * 600000;
-                }
-            }
+                            millis = date.getTime();
+                            System.out.println(millis);
 
 
-            for (int i = 0; i < docIDList.getLength(); i++) {
-                Node node = docIDList.item(i);
-                System.out.println("\nNode Name :"
-                        + node.getNodeName());
 
-                if (node.getNodeType()
-                        == Node.ELEMENT_NODE) {
-                    Element tElement = (Element)node;
-                    String docID = tElement
-                            .getElementsByTagName("rsm:DocumentID")
-                            .item(0)
-                            .getTextContent();
-                    docID = docID.substring(docID.length() - 3);
+                            System.out.println("End date: "
+                                    + tElement
+                                    .getElementsByTagName("rsm:EndDateTime")
+                                    .item(0)
+                                    .getTextContent());
+                            System.out.println("Interval: "
+                                    + tElement
+                                    .getElementsByTagName("rsm:Resolution")
+                                    .item(1)
+                                    .getTextContent()
+                            );
 
-                    if (docID.equals("742")){
-                        System.out.println("Strom wird bezogen (" + docID + ")");
-                        strombezogen = true;
-                    } else {
-                        System.out.println("Strom wird eingespeist (" + docID + ")");
-                        strombezogen = false;
-                    }
-                }
-            }
-
-
-            for (int i = 0; i < observationList.getLength(); i++) {
-                Node node = observationList.item(i);
-                System.out.println("\nNode Name :"
-                        + node.getNodeName());
-
-                if (node.getNodeType()
-                        == Node.ELEMENT_NODE) {
-                    Element tElement = (Element)node;
-                    System.out.println("Sequence: "
-                            + tElement
-                            .getElementsByTagName("rsm:Sequence")
-                            .item(0)
-                            .getTextContent());
-                    long Sequence = Long.valueOf(tElement.getElementsByTagName("rsm:Sequence").item(0).getTextContent());
-                    System.out.println("Volume: "
-                            + tElement
-                            .getElementsByTagName("rsm:Volume")
-                            .item(0)
-                            .getTextContent());
-
-                    String volume = tElement
-                            .getElementsByTagName("rsm:Volume")
-                            .item(0)
-                            .getTextContent();
-
-                    System.out.println(millis);
-                    System.out.println(resolution);
-
-                    if (map.get(millis + ((Sequence - 1) * resolution)) == null) {
-                        map.put(millis + ((Sequence - 1) * resolution), new Messwerte());
-                        timeStampList.add(millis + ((Sequence - 1) * resolution));
-                    }
-
-                    map.get(millis + ((Sequence - 1) * resolution)).setTimestamp(millis + ((Sequence - 1) * resolution));
-
-                    if (strombezogen) {
-                        map.get(millis + ((Sequence - 1) * resolution)).setRelativerBezug(Double.valueOf(volume));
-                        System.out.println("Realtiver Bezug von: " + millis + ((Sequence - 1) * resolution) + " ist "
-                                + map.get(millis + ((Sequence - 1) * resolution)).getRelativerBezug());
-
-                    }   else {
-                        map.get(millis + ((Sequence - 1) * resolution)).setRelativeEinspeisung(Double.valueOf(volume));
-                        System.out.println("Realtive Einspeisung von: " + millis + ((Sequence - 1) * resolution) + " ist "
-                                + map.get(millis + ((Sequence - 1) * resolution)).getRelativerBezug());
+                            resolution = Integer.valueOf(tElement
+                                    .getElementsByTagName("rsm:Resolution")
+                                    .item(1)
+                                    .getTextContent()) * 600000;
+                        }
                     }
 
 
+                    for (int i = 0; i < docIDList.getLength(); i++) {
+                        Node node = docIDList.item(i);
+                        System.out.println("\nNode Name :"
+                                + node.getNodeName());
+
+                        if (node.getNodeType()
+                                == Node.ELEMENT_NODE) {
+                            Element tElement = (Element)node;
+                            String docID = tElement
+                                    .getElementsByTagName("rsm:DocumentID")
+                                    .item(0)
+                                    .getTextContent();
+                            docID = docID.substring(docID.length() - 3);
+
+                            if (docID.equals("742")){
+                                System.out.println("Strom wird bezogen (" + docID + ")");
+                                strombezogen = true;
+                            } else {
+                                System.out.println("Strom wird eingespeist (" + docID + ")");
+                                strombezogen = false;
+                            }
+                        }
+                    }
+
+
+                    for (int i = 0; i < observationList.getLength(); i++) {
+                        Node node = observationList.item(i);
+                        System.out.println("\nNode Name :"
+                                + node.getNodeName());
+
+                        if (node.getNodeType()
+                                == Node.ELEMENT_NODE) {
+                            Element tElement = (Element)node;
+                            System.out.println("Sequence: "
+                                    + tElement
+                                    .getElementsByTagName("rsm:Sequence")
+                                    .item(0)
+                                    .getTextContent());
+                            long Sequence = Long.valueOf(tElement.getElementsByTagName("rsm:Sequence").item(0).getTextContent());
+                            System.out.println("Volume: "
+                                    + tElement
+                                    .getElementsByTagName("rsm:Volume")
+                                    .item(0)
+                                    .getTextContent());
+
+                            String volume = tElement
+                                    .getElementsByTagName("rsm:Volume")
+                                    .item(0)
+                                    .getTextContent();
+
+                            System.out.println(millis);
+                            System.out.println(resolution);
+
+                            if (map.get(millis + ((Sequence - 1) * resolution)) == null) {
+                                map.put(millis + ((Sequence - 1) * resolution), new Messwerte());
+                                timeStampList.add(millis + ((Sequence - 1) * resolution));
+                            }
+
+                            map.get(millis + ((Sequence - 1) * resolution)).setTimestamp(millis + ((Sequence - 1) * resolution));
+
+                            if (strombezogen) {
+                                map.get(millis + ((Sequence - 1) * resolution)).setRelativerBezug(Double.valueOf(volume));
+                                System.out.println("Realtiver Bezug von: " + millis + ((Sequence - 1) * resolution) + " ist "
+                                        + map.get(millis + ((Sequence - 1) * resolution)).getRelativerBezug());
+
+                            }   else {
+                                map.get(millis + ((Sequence - 1) * resolution)).setRelativeEinspeisung(Double.valueOf(volume));
+                                System.out.println("Realtive Einspeisung von: " + millis + ((Sequence - 1) * resolution) + " ist "
+                                        + map.get(millis + ((Sequence - 1) * resolution)).getRelativerBezug());
+                            }
+
+
+
+
+                        }
+
+                        System.out.println("Ertan: " + map.get(millis + 900000 ));
+
+                    }
 
 
                 }
-
-                System.out.println("Ertan: " + map.get(millis + 900000 ));
-
+            } else {
+                System.out.println("Directory invalid");
             }
 
 
