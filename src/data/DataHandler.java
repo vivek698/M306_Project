@@ -7,26 +7,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import view.Gui;
 
-import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
-import java.sql.Time;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.logging.FileHandler;
+import java.util.*;
 
 public class DataHandler {
-    static List<Long> timeStamp;
+    static List<Long> timeStampList;
     static TreeMap<Long, Messwerte> map;
     static long millis;
     static long resolution;
@@ -34,6 +21,7 @@ public class DataHandler {
     static boolean strombezogen;
 
     public DataHandler() {
+        timeStampList = new ArrayList<> ();
         map = new TreeMap();
 
     }
@@ -186,11 +174,12 @@ public class DataHandler {
 
                     if (map.get(millis + ((Sequence - 1) * resolution)) == null) {
                         map.put(millis + ((Sequence - 1) * resolution), new Messwerte());
+                        timeStampList.add(millis + ((Sequence - 1) * resolution));
                     }
 
                     map.get(millis + ((Sequence - 1) * resolution)).setTimestamp(millis + ((Sequence - 1) * resolution));
 
-                    if (strombezogen = true) {
+                    if (strombezogen) {
                         map.get(millis + ((Sequence - 1) * resolution)).setRelativerBezug(Double.valueOf(volume));
                         System.out.println("Realtiver Bezug von: " + millis + ((Sequence - 1) * resolution) + " ist "
                                 + map.get(millis + ((Sequence - 1) * resolution)).getRelativerBezug());
@@ -274,12 +263,13 @@ public class DataHandler {
 
     }
 
-    public static List<Long> getTimeStamp() {
-        return timeStamp;
+    public static List <Long> getTimeStampList() {
+        timeStampList = new ArrayList<>(new HashSet<>(timeStampList));
+        return timeStampList;
     }
 
-    public static void setTimeStamp(List<Long> timeStamp) {
-        DataHandler.timeStamp = timeStamp;
+    public static void setTimeStampList(List<Long> timeStampList) {
+        DataHandler.timeStampList = timeStampList;
     }
 
     public static TreeMap<Long, Messwerte> getMap() {
