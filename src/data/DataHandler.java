@@ -64,8 +64,8 @@ public class DataHandler {
                     = doc.getElementsByTagName("rsm:Observation");
             NodeList timeList
                     = doc.getElementsByTagName("rsm:MeteringData");
-            NodeList resolutionList
-                    = doc.getElementsByTagName("rsm:Resolution");
+            NodeList docIDList
+                    = doc.getElementsByTagName("rsm:InstanceDocument");
 
 
             for (int i = 0; i < timeList.getLength(); i++){
@@ -176,6 +176,28 @@ public class DataHandler {
 
                 System.out.println("Ertan: " + map.get(millis + 900000 ));
 
+            }
+
+            for (int i = 0; i < docIDList.getLength(); i++) {
+                Node node = docIDList.item(i);
+                System.out.println("\nNode Name :"
+                        + node.getNodeName());
+
+                if (node.getNodeType()
+                        == Node.ELEMENT_NODE) {
+                    Element tElement = (Element)node;
+                    String docID = tElement
+                            .getElementsByTagName("rsm:DocumentID")
+                            .item(0)
+                            .getTextContent();
+                    docID = docID.substring(docID.length() - 3);
+
+                    if (docID.equals("742")){
+                        System.out.println("Strom wird bezogen (" + docID + ")");
+                    } else {
+                        System.out.println("Strom wird eingespeist (" + docID + ")");
+                    }
+                }
             }
 
 
