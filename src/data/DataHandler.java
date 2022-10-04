@@ -28,6 +28,7 @@ public class DataHandler {
     static TreeMap<Long, Messwerte> map;
     static long millis;
     static long resolution;
+    static String startDateTime;
 
     public DataHandler() {
         map = new TreeMap();
@@ -82,33 +83,22 @@ public class DataHandler {
                             .item(0)
                             .getTextContent());
 
+                    startDateTime = tElement
+                                    .getElementsByTagName("rsm:StartDateTime")
+                                    .item(0)
+                                    .getTextContent();
 
                     Date date = new Date();
 
-                    date.setYear(Integer.valueOf(tElement
-                            .getElementsByTagName("rsm:StartDateTime")
-                            .item(0)
-                            .getTextContent().substring(0,4)));
+                    date.setYear(Integer.parseInt(startDateTime.substring(0,4)));
 
-                    date.setMonth(Integer.valueOf(tElement
-                            .getElementsByTagName("rsm:StartDateTime")
-                            .item(0)
-                            .getTextContent().substring(5,7)) -1 );
+                    date.setMonth(Integer.valueOf(startDateTime.substring(5,7)) -1 );
 
-                    date.setDate(Integer.valueOf(tElement
-                            .getElementsByTagName("rsm:StartDateTime")
-                            .item(0)
-                            .getTextContent().substring(8,10)));
+                    date.setDate(Integer.valueOf(startDateTime.substring(8,10)));
 
-                    date.setHours(Integer.valueOf(tElement
-                            .getElementsByTagName("rsm:StartDateTime")
-                            .item(0)
-                            .getTextContent().substring(11,13)));
+                    date.setHours(Integer.valueOf(startDateTime.substring(11,13)));
 
-                    date.setMinutes(Integer.valueOf(tElement
-                            .getElementsByTagName("rsm:StartDateTime")
-                            .item(0)
-                            .getTextContent().substring(14,16)));
+                    date.setMinutes(Integer.valueOf(startDateTime.substring(14,16)));
 
                     date.setSeconds(0);
 
@@ -153,6 +143,7 @@ public class DataHandler {
                             .getElementsByTagName("rsm:Sequence")
                             .item(0)
                             .getTextContent());
+                    long Sequence = Long.valueOf(tElement.getElementsByTagName("rsm:Sequence").item(0).getTextContent());
                     System.out.println("Volume: "
                             + tElement
                             .getElementsByTagName("rsm:Volume")
@@ -160,14 +151,12 @@ public class DataHandler {
                             .getTextContent());
 
 
-                    if (map.get(millis + ((Long.valueOf(tElement
-                            .getElementsByTagName("rsm:Sequence")
-                            .item(0)
-                            .getTextContent()) - 1) * resolution)) == null) {
-                        map.put(millis + ((Long.valueOf(tElement
-                                .getElementsByTagName("rsm:Sequence")
-                                .item(0)
-                                .getTextContent()) - 1) * resolution), new Messwerte());
+                    if (map.get(millis + ((Sequence - 1) * resolution)) == null) {
+                        map.put(millis + ((Sequence - 1) * resolution), new Messwerte());
+                    }
+
+                    if (1 == 1) {
+
                     }
 
 
