@@ -1,26 +1,19 @@
 package model;
 
+import data.DataHandler;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
 public class ID_List {
-    List<Long> timestampList = new ArrayList<>();//TODO get from DataHandler
-    TreeMap<Long, Messwerte> messwerteTreeMap  = new TreeMap<>(); //TODO get from DataHandler
+    List<Long> timestampList = DataHandler.getTimeStampList();
+    TreeMap<Long, Messwerte> messwerteTreeMap  = DataHandler.getMap();
     String id;
     TreeMap<Long, Double> data = new TreeMap<>();
 
     public ID_List(String id) {
         this.id = id;
-
-        timestampList.add(1000L);
-        timestampList.add(2000L);
-        timestampList.add(3000L);
-
-
-        messwerteTreeMap.put(timestampList.get(0), new Messwerte(timestampList.get(0),100,20,102,30));
-        messwerteTreeMap.put(timestampList.get(1), new Messwerte(timestampList.get(1),100,20,102,30));
-        messwerteTreeMap.put(timestampList.get(2), new Messwerte(timestampList.get(2),100,20,102,30));
 
 
         if (id.equals("ID735")){
@@ -37,7 +30,21 @@ public class ID_List {
     }
 
     public static void main(String[] args) {
+        DataHandler.main(args);
         ID_List id_list=new ID_List("ID735");
         System.out.println(id_list.data);
+    }
+
+    public String[] toStringArray(int i) {
+        String[] stringArray={
+                String.valueOf(timestampList.get(i)),
+                String.valueOf(data.get(timestampList.get(i)))
+        };
+
+        return stringArray;
+    }
+
+    public int size(){
+        return data.size();
     }
 }
