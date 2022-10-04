@@ -19,12 +19,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.TreeMap;
 import java.util.logging.FileHandler;
 
 public class DataHandler {
-
+    static List<Long> timeStamp;
     static TreeMap<Long, Messwerte> map;
     static long millis;
     static long resolution;
@@ -238,5 +239,21 @@ public class DataHandler {
 
     public static void readJSON() {
 
+    }
+
+    public static List<Long> getTimeStamp() {
+        return timeStamp;
+    }
+
+    public static void setTimeStamp(List<Long> timeStamp) {
+        DataHandler.timeStamp = timeStamp;
+    }
+
+    public static TreeMap<Long, Messwerte> getMap() {
+        return map;
+    }
+
+    public static void setMap(TreeMap<Long, Messwerte> map) {
+        DataHandler.map = map;
     }
 }
