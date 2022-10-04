@@ -10,7 +10,7 @@ import model.Messwerte;
 
 public class DataHandlerCSV {
     private static List<Messwerte> messwerteList=new ArrayList<>();
-    private static String path = "data/messwerte.csv";
+    private static final String path = "data/messwerte.csv";
     public static void main(String[] args) {
 
         List<Messwerte> csvData = createCsvDataExemple();
