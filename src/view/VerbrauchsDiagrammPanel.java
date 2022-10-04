@@ -3,6 +3,7 @@ package view;
 import javax.swing.*;
 
 import data.DataHandler;
+import model.Messwerte;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -24,6 +25,8 @@ import java.awt.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class VerbrauchsDiagrammPanel extends JPanel {
 
@@ -61,6 +64,8 @@ public class VerbrauchsDiagrammPanel extends JPanel {
     private XYDataset createDataset() {
 
         TimeSeries seriesA = new TimeSeries("A");
+        TimeSeries seriesB = new TimeSeries("B");
+        /*
         seriesA.add(new FixedMillisecond(1552427100000l), 0);
         seriesA.add(new FixedMillisecond(1552437100000l),0);
         seriesA.add(new FixedMillisecond(1552447100000l), 612);
@@ -68,10 +73,28 @@ public class VerbrauchsDiagrammPanel extends JPanel {
         seriesA.add(new FixedMillisecond(1552467100000l), 980);
         seriesA.add(new FixedMillisecond(1552477100000l), 1410);
         seriesA.add(new FixedMillisecond(1552487100000l), 2350);
+         */
+
+        DataHandler dataHandler = new DataHandler();
+
+        DataHandler.readSDAT();
+
+
+
+        for (Map.Entry<Long, Messwerte>
+                entry : DataHandler.getMap().entrySet())
+            seriesA.add(new FixedMillisecond(entry.getKey()), entry.getValue().getRelativerBezug());
+
+        for (Map.Entry<Long, Messwerte>
+                entry : DataHandler.getMap().entrySet())
+            seriesB.add(new FixedMillisecond(entry.getKey()), entry.getValue().getRelativeEinspeisung());
+
+
 
 
         TimeSeriesCollection dataset = new TimeSeriesCollection();
         dataset.addSeries(seriesA);
+        dataset.addSeries(seriesB);
 
         return dataset;
     }
@@ -93,9 +116,9 @@ public class VerbrauchsDiagrammPanel extends JPanel {
 
         XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
         renderer.setSeriesPaint(0, Color.RED);
-        renderer.setSeriesStroke(0, new BasicStroke(2.0f));
+        renderer.setSeriesStroke(0, new BasicStroke(1.00f));
         renderer.setSeriesPaint(1, Color.BLUE);
-        renderer.setSeriesStroke(1, new BasicStroke(2.0f));
+        renderer.setSeriesStroke(1, new BasicStroke(1.00f));
 
         plot.setRenderer(renderer);
         plot.setBackgroundPaint(Color.white);

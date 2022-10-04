@@ -7,7 +7,7 @@ public class Gui extends JFrame {
 
     public Gui() throws HeadlessException {
 
-        setTitle("Ertan");
+        setTitle("Projektdemo");
         setSize(800,600);
 
         // Hier erzeugen wir unsere JPanels
@@ -24,8 +24,8 @@ public class Gui extends JFrame {
                 (JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT );
 
         // Hier werden die JPanels als Registerkarten hinzugefügt
-        tabpane.addTab("Ertan", verbrauchsDiagrammPanel);
-        tabpane.addTab("Ertan", zaelerstandsDiagrammPanel);
+        tabpane.addTab("Verbrauchsdiagramm", verbrauchsDiagrammPanel);
+        tabpane.addTab("Zählerstandsdiagramm", zaelerstandsDiagrammPanel);
 
         // JTabbedPane wird unserem Dialog hinzugefügt
         add(tabpane);

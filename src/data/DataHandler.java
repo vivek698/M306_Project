@@ -27,14 +27,7 @@ public class DataHandler {
 
     }
 
-    public static void main(String[] args) {
 
-        Gui gui = new Gui();
-
-        DataHandler dataHandler = new DataHandler();
-
-        dataHandler.readSDAT();
-    }
 
     public static void readSDAT() {
 
