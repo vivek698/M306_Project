@@ -23,6 +23,9 @@ public class DataHandler {
         map = new TreeMap();
     }
 
+    public static void main(String[] args) {
+        readSDAT();
+    }
 
     public static void readSDAT() {
 
@@ -41,11 +44,15 @@ public class DataHandler {
                     "Root element: "
                             + doc.getDocumentElement().getNodeName());
 
-            NodeList nodeList
+            NodeList observationList
                     = doc.getElementsByTagName("rsm:Observation");
+            NodeList timeList
+                    = doc.getElementsByTagName("rsm:MeteringData");
+            NodeList resolutionList
+                    = doc.getElementsByTagName("rsm:Resolution");
 
-            for (int i = 0; i < nodeList.getLength(); ++i) {
-                Node node = nodeList.item(i);
+            for (int i = 0; i < observationList.getLength(); i++) {
+                Node node = observationList.item(i);
                 System.out.println("\nNode Name :"
                         + node.getNodeName());
 
@@ -65,18 +72,76 @@ public class DataHandler {
                 }
             }
 
+            for (int i = 0; i < timeList.getLength(); i++){
+                Node node = timeList.item(i);
+                System.out.println("\nNode Name :"
+                        + node.getNodeName());
+
+                if (node.getNodeType()
+                        == Node.ELEMENT_NODE) {
+                    Element tElement = (Element)node;
+                    System.out.println("Start date: "
+                            + tElement
+                            .getElementsByTagName("rsm:StartDateTime")
+                            .item(0)
+                            .getTextContent());
+                    System.out.println("End date: "
+                            + tElement
+                            .getElementsByTagName("rsm:EndDateTime")
+                            .item(0)
+                            .getTextContent());
+                    System.out.println("Interval: "
+                            + tElement
+                            .getElementsByTagName("rsm:Resolution")
+                            .item(1)
+                            .getTextContent());
+                }
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void main(String[] args) {
-        readSDAT();
-    }
-
     public static void readESL() {
+        try {
+            File file = new File(
+                    "data/esl/EdmRegisterWertExport_20190131_eslevu_20190322160349.xml");
 
+            DocumentBuilderFactory dbf
+                    = DocumentBuilderFactory.newInstance();
+
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(file);
+
+            doc.getDocumentElement().normalize();
+            System.out.println(
+                    "Root element: "
+                            + doc.getDocumentElement().getNodeName());
+
+            NodeList valueList
+                    = doc.getElementsByTagName("ValueRow");
+
+            for (int i = 0; i < valueList.getLength(); i++) {
+                Node node = valueList.item(i);
+
+                if (node.getNodeType()
+                        == Node.ELEMENT_NODE) {
+                    Element tElement = (Element)node;
+                    if (tElement.getAttribute("obis").equals("1-1:1.8.1") ||
+                            tElement.getAttribute("obis").equals("1-1:1.8.2") ||
+                            tElement.getAttribute("obis").equals("1-1:2.8.1") ||
+                            tElement.getAttribute("obis").equals("1-1:2.8.2")){
+                        System.out.println("\nNode Name :" + node.getNodeName());
+                        System.out.println(tElement.getAttribute("obis") + " " + tElement.getAttribute("value"));
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void readJSON() {
