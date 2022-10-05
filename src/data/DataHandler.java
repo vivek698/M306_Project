@@ -224,8 +224,8 @@ public class DataHandler {
                 for (File file : directoryListing) {
 
                     //Absolute Werte
-                    String absolutBezug = "";
-                    String absolutEinspeisung = "";
+                    double absolutBezug = 0.0;
+                    double absolutEinspeisung = 0.0;
                     String timestamp = "";
 
                     DocumentBuilderFactory dbf
@@ -267,12 +267,14 @@ public class DataHandler {
                                 System.out.println("\nNode Name :" + node.getNodeName());
                                 System.out.println(tElement.getAttribute("obis") + " " + tElement.getAttribute("value"));
 
-                                //Printout absoluter Wert 1.8
+                                //Absoluter Wert 1.8
                                 if (tElement.getAttribute("obis").equals("1-1:1.8.1") ||
                                         tElement.getAttribute("obis").equals("1-1:1.8.2")){
-                                    absolutBezug += tElement.getAttribute("value");
-                                } else {
-                                    absolutEinspeisung += tElement.getAttribute("value");
+                                    absolutBezug += Double.parseDouble(tElement.getAttribute("value"));
+                                }
+                                //Absoluter Wert 2.8
+                                else {
+                                    absolutEinspeisung += Double.parseDouble(tElement.getAttribute("value"));
                                 }
 
                             }
