@@ -37,7 +37,12 @@ public class ID_List {
         return stringArray;
     }
 
+    public TreeMap<Long, Double> getData() {
+        return data;
+    }
+
     public int size(){
         return data.size();
     }
+
 }

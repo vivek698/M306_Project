@@ -3,6 +3,9 @@ package data;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import model.ID_List;
+import model.ID_List_JSON;
+import model.Main;
 import model.Messwerte;
 
 import java.io.*;
@@ -20,24 +23,7 @@ public class DataHandlerJSON {
     private static final String path = "data/messwerte.json";
     private static final String path735 = "data/ID_735.json";
     private static final String path742 = "data/ID_742.json";
-    /**
-     * reads the game from the JSON-file
-     */
-    public static void readJSON() {
-        try {
-            byte[] jsonData = Files.readAllBytes(
-                    Paths.get(
-                            path
-                    )
-            );
 
-            ObjectMapper objectMapper = new ObjectMapper();
-            Messwerte[] messwerte = objectMapper.readValue(jsonData, Messwerte[].class);
-            Collections.addAll(messwerteList, messwerte);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
 
     /**
      * writes the gameList to the JSON-file
@@ -51,9 +37,16 @@ public class DataHandlerJSON {
         try {
             fileOutputStream = new FileOutputStream(path);
             fileWriter = new BufferedWriter(new OutputStreamWriter(fileOutputStream, StandardCharsets.UTF_8));
-            objectWriter.writeValue(fileWriter, messwerteList);
+            ID_List_JSON id_list1 = new ID_List_JSON("ID742");
+            ID_List_JSON[] id_lists={new ID_List_JSON("ID735"), new ID_List_JSON("ID742")};
+            objectWriter.writeValue(fileWriter,id_lists);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        Main.main(args);
+        writeJSON();
     }
 }
