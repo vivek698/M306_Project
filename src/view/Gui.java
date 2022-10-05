@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 
 public class Gui extends JFrame {
 
@@ -35,22 +36,56 @@ public class Gui extends JFrame {
         add(tabpane,BorderLayout.CENTER);
 
         JPanel buttonPanel=new JPanel();
-        JButton exportCSV = new JButton("exportCSV");
+
+        JButton exportCSV_id735 = new JButton("exportCSV ID735");
+        JButton exportCSV_id742 = new JButton("exportCSV ID742");
         JButton exportJSON = new JButton("exportJSON");
-        buttonPanel.add(exportCSV);
+
+        exportCSV_id735.addActionListener(e -> copyToDownloads("ID_735.csv"));
+        exportCSV_id742.addActionListener(e -> copyToDownloads("ID_742.csv"));
+        exportJSON.addActionListener(e -> copyToDownloads("messwerte.json"));
+
+        buttonPanel.add(exportCSV_id735);
+        buttonPanel.add(exportCSV_id742);
         buttonPanel.add(exportJSON);
+
         add(buttonPanel,BorderLayout.NORTH);
 
         // Wir lassen unseren Dialog anzeigen
         setVisible(true);
 
     }
-    ActionListener exportActionListener=new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
 
+
+    public static void main(String[] args) {
+        copyToDownloads("ID_735.csv");
+    }
+
+    public static void copyToDownloads(String fileName) {
+        try {
+
+            String home = System.getProperty("user.home");
+
+            InputStream in = null;
+            in = new FileInputStream(new File("data/" + fileName));
+
+            OutputStream out = new FileOutputStream(new File(home + "/Downloads/" + fileName));
+
+
+            byte[] buf = new byte[1024];
+            int len;
+
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+
+            in.close();
+            out.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    };
+    }
 
 
 
