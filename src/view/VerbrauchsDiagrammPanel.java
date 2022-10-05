@@ -56,6 +56,9 @@ public class VerbrauchsDiagrammPanel extends JPanel {
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         chartPanel.setBackground(Color.white);
+
+        chartPanel.setRangeZoomable(false);
+
         diagrammPanel.add(chartPanel);
 
     }
