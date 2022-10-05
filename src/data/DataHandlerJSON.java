@@ -18,6 +18,8 @@ import java.util.Collections;
 public class DataHandlerJSON {
     private static ArrayList messwerteList= new ArrayList();
     private static final String path = "data/messwerte.json";
+    private static final String path735 = "data/ID_735.json";
+    private static final String path742 = "data/ID_742.json";
     /**
      * reads the game from the JSON-file
      */

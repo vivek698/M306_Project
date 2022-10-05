@@ -17,12 +17,12 @@ public class ID_List {
 
         if (sensorId.equals("ID735")){
             for (Long timestamp:timestampList) {
-                data.put(timestamp, messwerteTreeMap.get(timestamp).getRelativeEinspeisung());
+                data.put(timestamp, messwerteTreeMap.get(timestamp).getAbsoluteEinspeisung());
             }
 
         } else if (sensorId.equals("ID742")){
             for (Long timestamp:timestampList) {
-                data.put(timestamp, messwerteTreeMap.get(timestamp).getRelativerBezug());
+                data.put(timestamp, messwerteTreeMap.get(timestamp).getAbsoluterBezug());
             }
         }
 
