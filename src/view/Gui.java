@@ -12,11 +12,8 @@ public class Gui extends JFrame {
 
         // Hier erzeugen wir unsere JPanels
         VerbrauchsDiagrammPanel verbrauchsDiagrammPanel = new VerbrauchsDiagrammPanel();
-        JPanel zaelerstandsDiagrammPanel = new JPanel();
+        ZaelerstandsDiagrammPanel zaelerstandsDiagrammPanel = new ZaelerstandsDiagrammPanel();
 
-        // Hier setzen wir die Hintergrundfarben für die JPanels
-        verbrauchsDiagrammPanel.setBackground(Color.RED);
-        zaelerstandsDiagrammPanel.setBackground(Color.BLUE);
 
 
         // Erzeugung eines JTabbedPane-Objektes

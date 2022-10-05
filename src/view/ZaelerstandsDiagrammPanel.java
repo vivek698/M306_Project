@@ -1,4 +1,9 @@
 package view;
 
-public class ZaelerstandsDiagrammPanel {
+import javax.swing.*;
+
+public class ZaelerstandsDiagrammPanel extends JPanel {
+
+
+
 }
