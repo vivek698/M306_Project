@@ -78,15 +78,6 @@ public class ZaelerstandsDiagrammPanel extends JPanel {
 
 
 
-            DataHandler dataHandler = new DataHandler();
-
-            // Zu löschen
-
-            DataHandler.readESL();
-
-            DataHandler.readSDAT();
-
-
             TimeSeriesCollection dataset = new TimeSeriesCollection();
             dataset.addSeries(seriesA);
 
