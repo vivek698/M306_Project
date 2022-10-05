@@ -20,12 +20,16 @@ public class DataHandler {
     static long resolution;
     static String startDateTime;
     static boolean strombezogen;
+    static long highestTs;
+    static double ABSOLUTE_EINSPEISUNG;
+    static double ABSOLUTER_BEZUG;
 
     public DataHandler() {
         timeStampList = new ArrayList<> ();
         map = new TreeMap();
         readSDAT();
         readESL();
+        adjustValues();
         loopTreeMap();
     }
 
@@ -136,7 +140,6 @@ public class DataHandler {
 
 
                         }
-
                     }
 
                 }
@@ -164,6 +167,41 @@ public class DataHandler {
                             + "]");
     }
 
+    public static void adjustValues() {
+
+
+        for (int i = timeStampList.indexOf(highestTs) - 1; i >= 0; i--) {
+
+
+            int indexOfHighestTs = timeStampList.indexOf(highestTs);
+            Messwerte objectAbove = map.get(timeStampList.get(timeStampList.indexOf(highestTs) - i));
+            Messwerte object = map.get(timeStampList.get(timeStampList.indexOf(highestTs) - i - 1));
+
+            if(objectAbove != null) {
+                map.get(object.getTimestamp()).setAbsoluteEinspeisung(objectAbove.getAbsoluteEinspeisung() - map.get(object.getTimestamp()).getRelativeEinspeisung());
+                map.get(object.getTimestamp()).setAbsoluterBezug(objectAbove.getAbsoluterBezug() - object.getRelativerBezug());
+            }
+
+            /*
+            if(map.get(timeStampList.get(timeStampList.indexOf(highestTs) - i)) != null) {
+
+                map.get(timeStampList.get(timeStampList.indexOf(highestTs) - i - 1))
+                        .setAbsoluteEinspeisung(map
+                                .get(timeStampList.get(timeStampList.indexOf(highestTs) - i -1))
+                                .getAbsoluteEinspeisung() - map.get(timeStampList.get(timeStampList.indexOf(highestTs) - i))
+                                .getRelativeEinspeisung());
+
+
+                map.get(timeStampList.get(timeStampList.indexOf(highestTs) - i - 1))
+                        .setAbsoluterBezug(map.get(timeStampList.get(timeStampList.indexOf(highestTs) - i -1))
+                                .getAbsoluterBezug() - map.get(timeStampList.get(timeStampList.indexOf(highestTs) - i))
+                                .getRelativerBezug());
+            }
+             */
+
+            System.out.println(object.getTimestamp() + " --> " + object.getAbsoluteEinspeisung());
+        }
+    }
 
     public static void readESL() {
         try {
@@ -242,11 +280,24 @@ public class DataHandler {
                     }
 
                     map.get(millis).setTimestamp(millis);
+
+                    /*
                     map.get(millis).setAbsoluterBezug(absolutBezug);
                     map.get(millis).setAbsoluteEinspeisung(absolutEinspeisung);
+                     */
+
+
+                    if (millis > highestTs) {
+                        highestTs = millis;
+                        ABSOLUTER_BEZUG = absolutBezug;
+                        ABSOLUTE_EINSPEISUNG = absolutEinspeisung;
+                    }
 
 
                 }
+
+                map.get(highestTs).setAbsoluteEinspeisung(ABSOLUTE_EINSPEISUNG);
+                map.get(highestTs).setAbsoluterBezug(ABSOLUTER_BEZUG);
             } else {
                 System.out.println("Directory invalid");
             }
