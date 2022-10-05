@@ -164,6 +164,7 @@ public class DataHandler {
                             + "]");
     }
 
+
     public static void readESL() {
         try {
 
@@ -243,8 +244,6 @@ public class DataHandler {
                     map.get(millis).setTimestamp(millis);
                     map.get(millis).setAbsoluterBezug(absolutBezug);
                     map.get(millis).setAbsoluteEinspeisung(absolutEinspeisung);
-                    System.out.println("ABezug: " + absolutBezug);
-                    System.out.println("AEinspeisung: " + absolutEinspeisung);
 
 
                 }

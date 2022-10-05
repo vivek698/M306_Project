@@ -64,26 +64,28 @@ public class ZaelerstandsDiagrammPanel extends JPanel {
 
         }
 
-        private XYDataset createDataset() {
 
-            TimeSeries seriesA = new TimeSeries("A");
-            seriesA.add(new FixedMillisecond(1552427100000l), 0);
-            seriesA.add(new FixedMillisecond(1552437100000l),0);
-            seriesA.add(new FixedMillisecond(1552447100000l), 612);
-            seriesA.add(new FixedMillisecond(1552457100000l), 800);
-            seriesA.add(new FixedMillisecond(1552467100000l), 980);
-            seriesA.add(new FixedMillisecond(1552477100000l), 1410);
-            seriesA.add(new FixedMillisecond(1552487100000l), 2350);
+    private XYDataset createDataset() {
+
+        TimeSeries seriesA = new TimeSeries("A");
+        TimeSeries seriesB = new TimeSeries("B");
 
 
+        for (Map.Entry<Long, Messwerte>
+                entry : DataHandler.getMap().entrySet())
+            seriesA.add(new FixedMillisecond(entry.getKey()), entry.getValue().getAbsoluterBezug());
+
+        for (Map.Entry<Long, Messwerte>
+                entry : DataHandler.getMap().entrySet())
+            seriesB.add(new FixedMillisecond(entry.getKey()), entry.getValue().getAbsoluteEinspeisung());
 
 
-            TimeSeriesCollection dataset = new TimeSeriesCollection();
-            dataset.addSeries(seriesA);
+        TimeSeriesCollection dataset = new TimeSeriesCollection();
+        dataset.addSeries(seriesA);
+        dataset.addSeries(seriesB);
 
-
-            return dataset;
-        }
+        return dataset;
+    }
 
 
 
