@@ -203,9 +203,11 @@ public class DataHandler {
         for (Map.Entry<Long, Messwerte>
                 entry : map.entrySet())
             System.out.println(
-                    "[" + entry.getKey()
-                            + ", " + entry.getValue().getRelativerBezug()
-                            + ", " + entry.getValue().getRelativeEinspeisung()
+                    "[TS: " + entry.getKey()
+                            + ", Relativer Bezug: " + entry.getValue().getRelativerBezug()
+                            + ", Relative Einspeisung: " + entry.getValue().getRelativeEinspeisung()
+                            + ", Absoluter Bezug: " + entry.getValue().getAbsoluterBezug()
+                            + ", Absolute Einspeisung: " + entry.getValue().getAbsoluteEinspeisung()
                             + "]");
 
 

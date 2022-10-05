@@ -77,6 +77,10 @@ public class VerbrauchsDiagrammPanel extends JPanel {
 
         DataHandler dataHandler = new DataHandler();
 
+        // Zu löschen
+
+        DataHandler.readESL();
+
         DataHandler.readSDAT();
 
 
