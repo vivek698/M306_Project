@@ -7,37 +7,42 @@ import java.util.*;
 
 import com.opencsv.CSVWriter;
 import model.ID_List;
-import model.Messwerte;
 
 public class DataHandlerCSV {
-    private static List<Messwerte> messwerteList=new ArrayList<>();
-    private static final String path = "data/messwerte.csv";
+    private static final String path735 = "data/ID_735.csv";
+    private static final String path742 = "data/ID_742.csv";
     public static void main(String[] args) {
 
         ID_List.main(args);
-        List <String[]> finalData = toStringList();
-
-        try (CSVWriter writer = new CSVWriter(new FileWriter(path))) {
-            writer.writeAll(finalData);
-            System.out.println("Hello");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        DataHandlerCSV.writeCSV();
 
     }
 
-    public static List<String[]> toStringList(){
+    public static void writeCSV(){
+        List <String[]> finalDataID735 = toStringList(new ID_List("ID735"));
+        List <String[]> finalDataID742 = toStringList(new ID_List("ID742"));
+
+        try {
+            CSVWriter writer735 = new CSVWriter(new FileWriter(path735));
+            writer735.writeAll(finalDataID735);
+
+            CSVWriter writer742 = new CSVWriter(new FileWriter(path742));
+            writer742.writeAll(finalDataID742);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static List<String[]> toStringList(ID_List id){
         List<String[]> stringList=new ArrayList<>();
 
         String[] header={"ts","value"};
         stringList.add(header);
 
-        ID_List id735=new ID_List("ID735");
-        ID_List id742=new ID_List("ID742");
 
-        //TODO
-        for (int i = 0; i < id742.size(); i++) {
-            stringList.add(id742.toStringArray(i));
+        for (int i = 0; i < id.size(); i++) {
+            stringList.add(id.toStringArray(i));
         }
 
         return stringList;
