@@ -216,38 +216,81 @@ public class DataHandler {
 
     public static void readESL() {
         try {
-            File file = new File(
-                    "data/esl/EdmRegisterWertExport_20190131_eslevu_20190322160349.xml");
 
-            DocumentBuilderFactory dbf
-                    = DocumentBuilderFactory.newInstance();
+            String myDirectoryPath = "data/esl/";
+            File dir = new File(myDirectoryPath);
+            File[] directoryListing = dir.listFiles();
+            if (directoryListing != null) {
+                for (File file : directoryListing) {
 
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(file);
+                    //Absolute Werte
+                    String absolutBezug = "";
+                    String absolutEinspeisung = "";
+                    String timestamp = "";
 
-            doc.getDocumentElement().normalize();
-            System.out.println(
-                    "Root element: "
-                            + doc.getDocumentElement().getNodeName());
+                    DocumentBuilderFactory dbf
+                            = DocumentBuilderFactory.newInstance();
 
-            NodeList valueList
-                    = doc.getElementsByTagName("ValueRow");
+                    DocumentBuilder db = dbf.newDocumentBuilder();
+                    Document doc = db.parse(file);
 
-            for (int i = 0; i < valueList.getLength(); i++) {
-                Node node = valueList.item(i);
+                    doc.getDocumentElement().normalize();
+                    System.out.println(
+                            "Root element: "
+                                    + doc.getDocumentElement().getNodeName());
 
-                if (node.getNodeType()
-                        == Node.ELEMENT_NODE) {
-                    Element tElement = (Element)node;
-                    if (tElement.getAttribute("obis").equals("1-1:1.8.1") ||
-                            tElement.getAttribute("obis").equals("1-1:1.8.2") ||
-                            tElement.getAttribute("obis").equals("1-1:2.8.1") ||
-                            tElement.getAttribute("obis").equals("1-1:2.8.2")){
-                        System.out.println("\nNode Name :" + node.getNodeName());
-                        System.out.println(tElement.getAttribute("obis") + " " + tElement.getAttribute("value"));
+                    NodeList valueList
+                            = doc.getElementsByTagName("ValueRow");
+                    NodeList timeList
+                            = doc.getElementsByTagName("TimePeriod");
+
+                    for (int i = 0; i < timeList.getLength(); i++) {
+                        Node node = timeList.item(i);
+
+                        if (node.getNodeType()
+                                == Node.ELEMENT_NODE) {
+                            Element tElement = (Element)node;
+                            timestamp = tElement.getAttribute("end");
+                        }
                     }
+
+                    for (int i = 0; i < valueList.getLength(); i++) {
+                        Node node = valueList.item(i);
+
+                        if (node.getNodeType()
+                                == Node.ELEMENT_NODE) {
+                            Element tElement = (Element)node;
+                            if (tElement.getAttribute("obis").equals("1-1:1.8.1") ||
+                                    tElement.getAttribute("obis").equals("1-1:1.8.2") ||
+                                    tElement.getAttribute("obis").equals("1-1:2.8.1") ||
+                                    tElement.getAttribute("obis").equals("1-1:2.8.2")){
+                                System.out.println("\nNode Name :" + node.getNodeName());
+                                System.out.println(tElement.getAttribute("obis") + " " + tElement.getAttribute("value"));
+
+                                //Printout absoluter Wert 1.8
+                                if (tElement.getAttribute("obis").equals("1-1:1.8.1") ||
+                                        tElement.getAttribute("obis").equals("1-1:1.8.2")){
+                                    absolutBezug += tElement.getAttribute("value");
+                                } else {
+                                    absolutEinspeisung += tElement.getAttribute("value");
+                                }
+
+                            }
+                        }
+                    }
+
+                    System.out.println();
+
+                    //Ausgabe absolutBezug, absolutEinspeisung & timestamp pro file
+                    System.out.println("Absoluter Bezug: " + absolutBezug);
+                    System.out.println("Absolute Einspeisung: " + absolutEinspeisung);
+                    System.out.println("Timestamp: " + timestamp);
+
                 }
+            } else {
+                System.out.println("Directory invalid");
             }
+
 
         } catch (Exception e) {
             e.printStackTrace();
