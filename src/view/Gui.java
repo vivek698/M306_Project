@@ -10,6 +10,7 @@ public class Gui extends JFrame {
     public Gui() throws HeadlessException {
         setTitle("Projektdemo");
         setSize(800,1000);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Hier erzeugen wir unsere JPanels
         VerbrauchsDiagrammPanel verbrauchsDiagrammPanel = new VerbrauchsDiagrammPanel();

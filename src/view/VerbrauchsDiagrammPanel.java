@@ -119,6 +119,8 @@ public class VerbrauchsDiagrammPanel extends JPanel {
         renderer.setSeriesStroke(0, new BasicStroke(1.00f));
         renderer.setSeriesPaint(1, Color.BLUE);
         renderer.setSeriesStroke(1, new BasicStroke(1.00f));
+        renderer.setSeriesShapesVisible(0, false);
+        renderer.setSeriesShapesVisible(1, false);
 
         plot.setRenderer(renderer);
         plot.setBackgroundPaint(Color.white);
