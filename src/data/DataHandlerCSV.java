@@ -7,13 +7,14 @@ import java.util.*;
 
 import com.opencsv.CSVWriter;
 import model.ID_List;
+import model.Main;
 
 public class DataHandlerCSV {
     private static final String path735 = "data/ID_735.csv";
     private static final String path742 = "data/ID_742.csv";
     public static void main(String[] args) {
 
-        ID_List.main(args);
+        Main.main(args);
         DataHandlerCSV.writeCSV();
 
     }
