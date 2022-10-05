@@ -75,13 +75,6 @@ public class VerbrauchsDiagrammPanel extends JPanel {
         seriesA.add(new FixedMillisecond(1552487100000l), 2350);
          */
 
-        DataHandler dataHandler = new DataHandler();
-
-        // Zu löschen
-
-        DataHandler.readESL();
-
-        DataHandler.readSDAT();
 
 
 
