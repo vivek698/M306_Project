@@ -30,7 +30,7 @@ public class DataHandler {
         readSDAT();
         readESL();
         adjustValues();
-        loopTreeMap();
+        //loopTreeMap();
     }
 
 
@@ -169,7 +169,7 @@ public class DataHandler {
 
     public static void adjustValues() {
 
-
+        /*
         for (int i = timeStampList.indexOf(highestTs) - 1; i >= 0; i--) {
 
 
@@ -182,25 +182,26 @@ public class DataHandler {
                 map.get(object.getTimestamp()).setAbsoluterBezug(objectAbove.getAbsoluterBezug() - object.getRelativerBezug());
             }
 
-            /*
-            if(map.get(timeStampList.get(timeStampList.indexOf(highestTs) - i)) != null) {
-
-                map.get(timeStampList.get(timeStampList.indexOf(highestTs) - i - 1))
-                        .setAbsoluteEinspeisung(map
-                                .get(timeStampList.get(timeStampList.indexOf(highestTs) - i -1))
-                                .getAbsoluteEinspeisung() - map.get(timeStampList.get(timeStampList.indexOf(highestTs) - i))
-                                .getRelativeEinspeisung());
-
-
-                map.get(timeStampList.get(timeStampList.indexOf(highestTs) - i - 1))
-                        .setAbsoluterBezug(map.get(timeStampList.get(timeStampList.indexOf(highestTs) - i -1))
-                                .getAbsoluterBezug() - map.get(timeStampList.get(timeStampList.indexOf(highestTs) - i))
-                                .getRelativerBezug());
-            }
-             */
-
             System.out.println(object.getTimestamp() + " --> " + object.getAbsoluteEinspeisung());
         }
+         */
+
+        Set<Long> keySet = map.descendingKeySet();
+        Messwerte objectAbove = null;
+
+        for (Long element:
+             keySet) {
+
+            if(objectAbove != null) {
+                map.get(element).setAbsoluteEinspeisung(objectAbove.getAbsoluteEinspeisung() - map.get(element).getRelativeEinspeisung());
+                map.get(element).setAbsoluterBezug(objectAbove.getAbsoluterBezug() - map.get(element).getRelativerBezug());
+            }
+
+            objectAbove = map.get(element);
+
+        }
+
+
     }
 
     public static void readESL() {
