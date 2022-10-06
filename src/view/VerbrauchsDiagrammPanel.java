@@ -37,7 +37,7 @@ public class VerbrauchsDiagrammPanel extends JPanel {
     }
 
     public void createChartPanel() {
-        XYDataset dataset = createDataset();
+        XYDataset dataset = createDatasetInW();
         JFreeChart chart = createChart(dataset);
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setBackground(Color.white);
@@ -59,6 +59,26 @@ public class VerbrauchsDiagrammPanel extends JPanel {
         for (Map.Entry<Long, Messwerte>
                 entry : DataHandler.getMap().entrySet())
             seriesB.add(new FixedMillisecond(entry.getKey()), entry.getValue().getRelativeEinspeisung());
+
+
+        TimeSeriesCollection dataset = new TimeSeriesCollection();
+        dataset.addSeries(seriesA);
+        dataset.addSeries(seriesB);
+
+        return dataset;
+    }
+
+    private XYDataset createDatasetInW() {
+        TimeSeries seriesA = new TimeSeries("Relativer Bezug");
+        TimeSeries seriesB = new TimeSeries("Relative Einspeisung");
+
+        for (Map.Entry<Long, Messwerte>
+                entry : DataHandler.getMap().entrySet())
+            seriesA.add(new FixedMillisecond(entry.getKey()), entry.getValue().getRelativerBezug() * 1000);
+
+        for (Map.Entry<Long, Messwerte>
+                entry : DataHandler.getMap().entrySet())
+            seriesB.add(new FixedMillisecond(entry.getKey()), entry.getValue().getRelativeEinspeisung() * 1000);
 
 
         TimeSeriesCollection dataset = new TimeSeriesCollection();

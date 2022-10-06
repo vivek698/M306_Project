@@ -16,6 +16,8 @@ import java.util.*;
 public class DataHandler {
     static List<Long> timeStampList;
     static TreeMap<Long, Messwerte> map;
+    static File[] uploadedSDATFiles;
+    static File[] uploadedESLFiles;
     static long millis;
     static long resolution;
     static String startDateTime;
@@ -39,9 +41,16 @@ public class DataHandler {
 
         try {
 
-            String myDirectoryPath = "data/sdat/";
-            File dir = new File(myDirectoryPath);
-            File[] directoryListing = dir.listFiles();
+            File[] directoryListing;
+
+            if (uploadedSDATFiles != null){
+                directoryListing = uploadedSDATFiles;
+            } else {
+                String myDirectoryPath = "data/sdat/";
+                File dir = new File(myDirectoryPath);
+                directoryListing = dir.listFiles();
+            }
+
             if (directoryListing != null) {
                 for (File file : directoryListing) {
                     DocumentBuilderFactory dbf
@@ -207,9 +216,16 @@ public class DataHandler {
     public static void readESL() {
         try {
 
-            String myDirectoryPath = "data/esl/";
-            File dir = new File(myDirectoryPath);
-            File[] directoryListing = dir.listFiles();
+            File[] directoryListing;
+
+            if (uploadedESLFiles != null){
+                directoryListing = uploadedESLFiles;
+            } else {
+                String myDirectoryPath = "data/esl/";
+                File dir = new File(myDirectoryPath);
+                directoryListing = dir.listFiles();
+            }
+
             if (directoryListing != null) {
                 for (File file : directoryListing) {
 
@@ -324,5 +340,13 @@ public class DataHandler {
 
     public static void setMap(TreeMap<Long, Messwerte> map) {
         DataHandler.map = map;
+    }
+
+    public static void setUploadedSDATFiles(File[] uploadedSDATFiles) {
+        DataHandler.uploadedSDATFiles = uploadedSDATFiles;
+    }
+
+    public static void setUploadedESLFiles(File[] uploadedESLFiles) {
+        DataHandler.uploadedESLFiles = uploadedESLFiles;
     }
 }

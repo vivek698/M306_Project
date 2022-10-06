@@ -1,7 +1,11 @@
 package view;
 
+import data.DataHandler;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 
 public class Gui extends JFrame {
@@ -35,14 +39,41 @@ public class Gui extends JFrame {
 
         JPanel buttonPanel=new JPanel();
 
+        JButton switchBtn = new JButton("Switch");
+        JButton uploadSDATBtn = new JButton("sdat Daten hochladen");
+        JButton uploadESLBtn = new JButton("esl Daten hochladen");
         JButton exportCSV_id735 = new JButton("exportCSV Einspeisung");
         JButton exportCSV_id742 = new JButton("exportCSV Bezug");
         JButton exportJSON = new JButton("exportJSON");
+
+        switchBtn.addActionListener(e -> {
+
+        });
+
+        uploadSDATBtn.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setMultiSelectionEnabled(true);
+            chooser.showOpenDialog(this);
+            File[] files = chooser.getSelectedFiles();
+            DataHandler.setUploadedSDATFiles(files);
+            SwingUtilities.updateComponentTreeUI(this);
+        });
+
+        uploadESLBtn.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setMultiSelectionEnabled(true);
+            chooser.showOpenDialog(this);
+            File[] files = chooser.getSelectedFiles();
+            DataHandler.setUploadedESLFiles(files);
+        });
 
         exportCSV_id735.addActionListener(e -> copyToDownloads("ID_Einspeisung.csv"));
         exportCSV_id742.addActionListener(e -> copyToDownloads("ID_Bezug.csv"));
         exportJSON.addActionListener(e -> copyToDownloads("messwerte.json"));
 
+        buttonPanel.add(switchBtn);
+        buttonPanel.add(uploadSDATBtn);
+        buttonPanel.add(uploadESLBtn);
         buttonPanel.add(exportCSV_id735);
         buttonPanel.add(exportCSV_id742);
         buttonPanel.add(exportJSON);
