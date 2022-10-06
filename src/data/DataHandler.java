@@ -309,10 +309,6 @@ public class DataHandler {
         }
     }
 
-    public static void readJSON() {
-
-    }
-
     public static List <Long> getTimeStampList() {
         timeStampList = new ArrayList<>(new HashSet<>(timeStampList));
         return timeStampList;
