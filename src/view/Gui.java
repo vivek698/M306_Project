@@ -2,20 +2,18 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 
 public class Gui extends JFrame {
 
     public Gui() throws HeadlessException {
         setTitle("Projektdemo");
-        setSize(800,1000);
+        setSize(1000,800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Hier erzeugen wir unsere JPanels
         VerbrauchsDiagrammPanel verbrauchsDiagrammPanel = new VerbrauchsDiagrammPanel();
-        ZaelerstandsDiagrammPanel zaelerstandsDiagrammPanel = new ZaelerstandsDiagrammPanel();
+        ZaehlerstandsDiagrammPanel zaelerstandsDiagrammPanel = new ZaehlerstandsDiagrammPanel();
 
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");

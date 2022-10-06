@@ -1,7 +1,5 @@
 package view;
 
-import javax.swing.*;
-
 import data.DataHandler;
 import model.Messwerte;
 import org.jfree.chart.ChartFactory;
@@ -13,25 +11,41 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.TextTitle;
+import org.jfree.data.Range;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.data.time.FixedMillisecond;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
-import org.jfree.data.xy.XYDataItem;
+import org.jfree.data.xy.XYDataset;
+
+import javax.swing.*;
+import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Map;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.block.BlockBorder;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.title.TextTitle;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import java.awt.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
 
-public class VerbrauchsDiagrammPanel extends JPanel {
+public class ZaehlerstandsDiagrammPanel extends JPanel {
 
-
-    public VerbrauchsDiagrammPanel() {
+    public ZaehlerstandsDiagrammPanel(){
         setLayout(new BorderLayout());
         createChartPanel();
     }
@@ -49,16 +63,18 @@ public class VerbrauchsDiagrammPanel extends JPanel {
     }
 
     private XYDataset createDataset() {
-        TimeSeries seriesA = new TimeSeries("Relativer Bezug");
-        TimeSeries seriesB = new TimeSeries("Relative Einspeisung");
+
+        TimeSeries seriesA = new TimeSeries("Absoluter Bezug");
+        TimeSeries seriesB = new TimeSeries("Absolute Einspeisung");
+
 
         for (Map.Entry<Long, Messwerte>
                 entry : DataHandler.getMap().entrySet())
-            seriesA.add(new FixedMillisecond(entry.getKey()), entry.getValue().getRelativerBezug());
+            seriesA.add(new FixedMillisecond(entry.getKey()), entry.getValue().getAbsoluterBezug());
 
         for (Map.Entry<Long, Messwerte>
                 entry : DataHandler.getMap().entrySet())
-            seriesB.add(new FixedMillisecond(entry.getKey()), entry.getValue().getRelativeEinspeisung());
+            seriesB.add(new FixedMillisecond(entry.getKey()), entry.getValue().getAbsoluteEinspeisung());
 
 
         TimeSeriesCollection dataset = new TimeSeriesCollection();
@@ -73,7 +89,7 @@ public class VerbrauchsDiagrammPanel extends JPanel {
         JFreeChart chart = ChartFactory.createXYLineChart(
                 "Verbrauchsdiagramm",
                 "Zeit",
-                "Verbrauch in KwH",
+                "Verbrauch In KwH",
                 dataset,
                 PlotOrientation.VERTICAL,
                 true,
@@ -102,7 +118,7 @@ public class VerbrauchsDiagrammPanel extends JPanel {
 
         chart.getLegend().setFrame(BlockBorder.NONE);
 
-        chart.setTitle(new TextTitle("Verbrauchsdiagramm",
+        chart.setTitle(new TextTitle("Zählerstandsdiagramm",
                         new Font("Serif", java.awt.Font.BOLD, 18)
                 )
         );
@@ -112,7 +128,6 @@ public class VerbrauchsDiagrammPanel extends JPanel {
         dateAxis.setDateFormatOverride(new SimpleDateFormat("yyyy-MM-dd-hh-mm"));
         dateAxis.setVerticalTickLabels(true);
         dateAxis.setUpperMargin(.10);
-
         plot.getRangeAxis().setLabel("Verbrauch in KwH");
         plot.setDomainAxis(dateAxis);
         plot.mapDatasetToRangeAxis(0, 0);
@@ -120,4 +135,6 @@ public class VerbrauchsDiagrammPanel extends JPanel {
 
         return chart;
     }
+
 }
+
