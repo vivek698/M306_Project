@@ -37,8 +37,14 @@ public class VerbrauchsDiagrammPanel extends JPanel {
     }
 
     public void createChartPanel() {
-        XYDataset dataset = createDatasetInW();
-        JFreeChart chart = createChart(dataset);
+        XYDataset dataset = createDataset();
+        XYDataset datasetInW = createDatasetInW();
+        JFreeChart chart;
+        if (Gui.inWatt){
+            chart = createChart(datasetInW);
+        } else {
+            chart = createChart(dataset);
+        }
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setBackground(Color.white);
         chartPanel.setRangeZoomable(false);
@@ -93,7 +99,7 @@ public class VerbrauchsDiagrammPanel extends JPanel {
         JFreeChart chart = ChartFactory.createXYLineChart(
                 "Verbrauchsdiagramm",
                 "Zeit",
-                "Verbrauch in KwH",
+                "Verbrauch in kWh",
                 dataset,
                 PlotOrientation.VERTICAL,
                 true,
@@ -133,7 +139,7 @@ public class VerbrauchsDiagrammPanel extends JPanel {
         dateAxis.setVerticalTickLabels(true);
         dateAxis.setUpperMargin(.10);
 
-        plot.getRangeAxis().setLabel("Verbrauch in KwH");
+        plot.getRangeAxis().setLabel("Verbrauch");
         plot.setDomainAxis(dateAxis);
         plot.mapDatasetToRangeAxis(0, 0);
         plot.mapDatasetToRangeAxis(1, 1);

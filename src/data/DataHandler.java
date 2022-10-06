@@ -45,6 +45,7 @@ public class DataHandler {
 
             if (uploadedSDATFiles != null){
                 directoryListing = uploadedSDATFiles;
+                map.clear();
             } else {
                 String myDirectoryPath = "data/sdat/";
                 File dir = new File(myDirectoryPath);
@@ -220,6 +221,7 @@ public class DataHandler {
 
             if (uploadedESLFiles != null){
                 directoryListing = uploadedESLFiles;
+                map.clear();
             } else {
                 String myDirectoryPath = "data/esl/";
                 File dir = new File(myDirectoryPath);
@@ -344,9 +346,11 @@ public class DataHandler {
 
     public static void setUploadedSDATFiles(File[] uploadedSDATFiles) {
         DataHandler.uploadedSDATFiles = uploadedSDATFiles;
+        readSDAT();
     }
 
     public static void setUploadedESLFiles(File[] uploadedESLFiles) {
         DataHandler.uploadedESLFiles = uploadedESLFiles;
+        readESL();
     }
 }

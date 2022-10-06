@@ -10,8 +10,10 @@ import java.io.*;
 
 public class Gui extends JFrame {
 
+    static boolean inWatt = false;
+
     public Gui() throws HeadlessException {
-        setTitle("Projektdemo");
+        setTitle("Stromdaten");
         setSize(1000,800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -39,33 +41,55 @@ public class Gui extends JFrame {
 
         JPanel buttonPanel=new JPanel();
 
-        JButton switchBtn = new JButton("Switch");
+        JButton switchBtn = new JButton();
+
+        if (inWatt){
+            switchBtn.setText("zu kWh");
+        } else {
+            switchBtn.setText("zu Wh");
+        }
+
         JButton uploadSDATBtn = new JButton("sdat Daten hochladen");
-        JButton uploadESLBtn = new JButton("esl Daten hochladen");
+        //JButton uploadESLBtn = new JButton("esl Daten hochladen");
         JButton exportCSV_id735 = new JButton("exportCSV Einspeisung");
         JButton exportCSV_id742 = new JButton("exportCSV Bezug");
         JButton exportJSON = new JButton("exportJSON");
 
         switchBtn.addActionListener(e -> {
-
+            if (inWatt){
+                inWatt = false;
+                switchBtn.setText("zu Wh");
+            } else {
+                inWatt = true;
+                switchBtn.setText("zu kWh");
+            }
+            dispose();
+            new Gui();
         });
 
         uploadSDATBtn.addActionListener(e -> {
-            JFileChooser chooser = new JFileChooser();
+            JFileChooser chooser = new JFileChooser("data/sdat/");
             chooser.setMultiSelectionEnabled(true);
             chooser.showOpenDialog(this);
             File[] files = chooser.getSelectedFiles();
-            DataHandler.setUploadedSDATFiles(files);
-            SwingUtilities.updateComponentTreeUI(this);
+            if (files.length > 0){
+                DataHandler.setUploadedSDATFiles(files);
+                dispose();
+                new Gui();
+            }
         });
 
-        uploadESLBtn.addActionListener(e -> {
-            JFileChooser chooser = new JFileChooser();
+        /*uploadESLBtn.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser("data/esl/");
             chooser.setMultiSelectionEnabled(true);
             chooser.showOpenDialog(this);
             File[] files = chooser.getSelectedFiles();
-            DataHandler.setUploadedESLFiles(files);
-        });
+            if (files.length > 0){
+                DataHandler.setUploadedESLFiles(files);
+                dispose();
+                new Gui();
+            }
+        });*/
 
         exportCSV_id735.addActionListener(e -> copyToDownloads("ID_Einspeisung.csv"));
         exportCSV_id742.addActionListener(e -> copyToDownloads("ID_Bezug.csv"));
@@ -73,7 +97,7 @@ public class Gui extends JFrame {
 
         buttonPanel.add(switchBtn);
         buttonPanel.add(uploadSDATBtn);
-        buttonPanel.add(uploadESLBtn);
+        //buttonPanel.add(uploadESLBtn);
         buttonPanel.add(exportCSV_id735);
         buttonPanel.add(exportCSV_id742);
         buttonPanel.add(exportJSON);
