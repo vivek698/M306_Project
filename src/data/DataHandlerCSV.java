@@ -10,8 +10,8 @@ import model.ID_List;
 import model.Main;
 
 public class DataHandlerCSV {
-    private static final String path735 = "data/ID_735.csv";
-    private static final String path742 = "data/ID_742.csv";
+    private static final String path735 = "data/ID_Einspeisung.csv";
+    private static final String path742 = "data/ID_Bezug.csv";
     public static void main(String[] args) {
 
         Main.main(args);

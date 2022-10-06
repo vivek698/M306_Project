@@ -37,12 +37,12 @@ public class Gui extends JFrame {
 
         JPanel buttonPanel=new JPanel();
 
-        JButton exportCSV_id735 = new JButton("exportCSV ID735");
-        JButton exportCSV_id742 = new JButton("exportCSV ID742");
+        JButton exportCSV_id735 = new JButton("exportCSV Einspeisung");
+        JButton exportCSV_id742 = new JButton("exportCSV Bezug");
         JButton exportJSON = new JButton("exportJSON");
 
-        exportCSV_id735.addActionListener(e -> copyToDownloads("ID_735.csv"));
-        exportCSV_id742.addActionListener(e -> copyToDownloads("ID_742.csv"));
+        exportCSV_id735.addActionListener(e -> copyToDownloads("ID_Einspeisung.csv"));
+        exportCSV_id742.addActionListener(e -> copyToDownloads("ID_Bezug.csv"));
         exportJSON.addActionListener(e -> copyToDownloads("messwerte.json"));
 
         buttonPanel.add(exportCSV_id735);
@@ -58,7 +58,7 @@ public class Gui extends JFrame {
 
 
     public static void main(String[] args) {
-        copyToDownloads("ID_735.csv");
+        copyToDownloads("ID_Einspeisung.csv");
     }
 
     public static void copyToDownloads(String fileName) {

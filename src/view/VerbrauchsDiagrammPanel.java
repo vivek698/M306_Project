@@ -38,14 +38,14 @@ public class VerbrauchsDiagrammPanel extends JPanel {
         setLayout(new BorderLayout());
 
         add(diagrammPanel, BorderLayout.CENTER);
-        JPanel p1 = new JPanel();
+        /*JPanel p1 = new JPanel();
         p1.setBackground(Color.yellow);
         JPanel p2 = new JPanel();
         p2.setBackground(Color.GREEN);
         add(p1, BorderLayout.NORTH);
         add(p2, BorderLayout.EAST);
         add(new JPanel(), BorderLayout.SOUTH);
-        add(new JPanel(), BorderLayout.WEST);
+        add(new JPanel(), BorderLayout.WEST);*/
 
 
 
