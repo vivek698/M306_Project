@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.*;
 
 import com.opencsv.CSVWriter;
-import model.ID_List;
+import model.ID_List_CSV;
 import model.Main;
 
 public class DataHandlerCSV {
@@ -20,8 +20,8 @@ public class DataHandlerCSV {
     }
 
     public static void writeCSV(){
-        List <String[]> finalDataID735 = toStringList(new ID_List("ID735"));
-        List <String[]> finalDataID742 = toStringList(new ID_List("ID742"));
+        List <String[]> finalDataID735 = toStringList(new ID_List_CSV("ID735"));
+        List <String[]> finalDataID742 = toStringList(new ID_List_CSV("ID742"));
 
         try {
             CSVWriter writer735 = new CSVWriter(new FileWriter(path735));
@@ -35,7 +35,7 @@ public class DataHandlerCSV {
         }
     }
 
-    public static List<String[]> toStringList(ID_List id){
+    public static List<String[]> toStringList(ID_List_CSV id){
         List<String[]> stringList=new ArrayList<>();
 
         String[] header={"ts","value"};

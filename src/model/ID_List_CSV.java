@@ -5,13 +5,13 @@ import data.DataHandler;
 import java.util.List;
 import java.util.TreeMap;
 
-public class ID_List {
+public class ID_List_CSV {
     List<Long> timestampList = DataHandler.getTimeStampList();
     TreeMap<Long, Messwerte> messwerteTreeMap  = DataHandler.getMap();
     String sensorId;
     TreeMap<Long, Double> data = new TreeMap<>();
 
-    public ID_List(String sensorId) {
+    public ID_List_CSV(String sensorId) {
         this.sensorId = sensorId;
 
 

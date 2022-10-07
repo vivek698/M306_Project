@@ -3,17 +3,12 @@ package data;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import model.ID_List;
 import model.ID_List_JSON;
 import model.Main;
-import model.Messwerte;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * data handler for reading the User
@@ -21,8 +16,6 @@ import java.util.Collections;
 public class DataHandlerJSON {
     private static ArrayList messwerteList= new ArrayList();
     private static final String path = "data/messwerte.json";
-    private static final String path735 = "data/ID_735.json";
-    private static final String path742 = "data/ID_742.json";
 
 
     /**
